@@ -1,0 +1,25 @@
+{
+  "name": "apistipcid12",
+  "version": "1.0.0",
+  "description": "Aplikasi STIPCID12",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/theddyarmeinsyah/apistipcid12.git"
+  },
+  "keywords": [
+    "rest",
+    "api",
+    "node",
+    "js"
+  ],
+  "author": "Theddy Armeinsyah",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/theddyarmeinsyah/apistipcid12/issues"
+  },
+  "homepage": "https://github.com/theddyarmeinsyah/apistipcid12#readme"
+}
