@@ -8,9 +8,9 @@ const conn= mysql.createConnection({
     database: 'stipcid12_pasca'
 });
 
-conn.connect((err)=>{
+conn.connect((err) => {
     if(err) throw err;
     console.log('mysql terkoneksi');
 });
 
-modul.export = conn;
+module.exports = conn;
