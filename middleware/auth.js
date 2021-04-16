@@ -43,3 +43,52 @@ exports.registrasiuser = function(req, res){
         }
     })
 }
+
+exports.loginuser = function(req, res){
+    var post = (
+        password = req.body.password,
+        email = req.body.email
+    )
+
+    var query = "Select * from ?? where ??=? AND ??=?";
+    var table = ("users", "password", md5(post.password), "email", post.email);
+
+    query = mysql.format(query, table);
+    connection.query(query, function(error, rows){
+        if (error){
+            console.log(error);
+        }else{
+            if (rows.length == 1){
+                    var token = jwt.sign({rows}, config.secret,{
+                        expiresIn: 1440
+                });
+
+                id_users= rows[0].id;
+                var data = (
+                    id_user = id_users,
+                    access_token = token,
+                    ip_address = ip.address()
+                )
+
+                var query = "Insert into ?? set ?";
+                var table = ["users_access_token"];
+
+                query = mysql.format(query,table);
+                connection.query(query,data, function(error, rows){
+                    if (error){
+                        console.log(error);
+                    }else{
+                        res.json({
+                            success: true,
+                            message: 'Token JWT Tergenerate!',
+                            token: token,
+                            currUser: data.id_user
+                        });
+                    }
+                });
+            }else{
+                 res.json({"error": true, "Message":"Email atau Password salah"});
+            }
+        }
+    });
+}
