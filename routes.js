@@ -5,4 +5,7 @@ module.exports = function(app){
 
     app.route('/')
     .get(json.index);
+
+    app.route('/tampil').get(json.tampilsemua);
+    app.route('/tampil/:id').get(json.tampilsemuaid);
 };
