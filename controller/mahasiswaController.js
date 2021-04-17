@@ -1,11 +1,11 @@
 'use strict';
 
-var response = require('./res');
-var connection = require('./koneksi');
+const response = require('../res');
+const connection = require('../koneksi');
 
 exports.index = function(req, res){
     response.ok("Aplikasi Rest API Berjalan",res)
-};
+}
 
 //Menampilkan seluruh data mahasiswa
 exports.tampilsemua = function(req, res){
@@ -18,6 +18,7 @@ exports.tampilsemua = function(req, res){
         }
     });
 }
+
 //Menampilkan seluruh data mahasiswa berdasarkan id
 exports.tampilsemuaid = function(req, res){
     let id = req.params.id;

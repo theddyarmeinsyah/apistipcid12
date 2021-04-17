@@ -1,6 +1,6 @@
 var connection = require('../koneksi');
 var mysql = require('mysql');
-var md5 = require('MD5');
+var md5x = require('MD5');
 var response = require('../res');
 var jwt = require('jsonwebtoken');
 var config = require('../config/secret');
@@ -11,14 +11,15 @@ exports.registrasiuser = function(req, res){
     var post = {
         name: req.body.name,
         email: req.body.email,
-        password: md5(req.body.password),
+        password: md5x(req.body.password),
         usertype: req.body.usertype,
         statusid: req.body.statusid,
-        tanggal_daftar: new Date(),
+        userlinkid : req.body.userlinkid,
+        created_at: req.body.created_at
     }
 
     var query = "Select email from ?? where ??=?";
-    var table = ["users","email", post.email];
+    var table = ["usersx","email", post.email];
 
     query = mysql.format(query, table);
 
@@ -28,7 +29,7 @@ exports.registrasiuser = function(req, res){
         }else{
             if(rows.length == 0){
                 var query = "Insert into ?? set ?";
-                var table = ["users"];
+                var table = ["usersx"];
                 query = mysql.format(query, table);
                 connection.query(query, post, function(error, rows){
                     if (error){
@@ -45,13 +46,15 @@ exports.registrasiuser = function(req, res){
 }
 
 exports.loginuser = function(req, res){
-    var post = (
-        password = req.body.password,
-        email = req.body.email
-    )
+    var post = {
+        password: req.body.password,
+        email: req.body.email
+    }
+
+    // console.log(post.password);
 
     var query = "Select * from ?? where ??=? AND ??=?";
-    var table = ("users", "password", md5(post.password), "email", post.email);
+    var table = ["usersx", "password", md5x(post.password), "email", post.email];
 
     query = mysql.format(query, table);
     connection.query(query, function(error, rows){
@@ -64,14 +67,15 @@ exports.loginuser = function(req, res){
                 });
 
                 id_users= rows[0].id;
-                var data = (
-                    id_user = id_users,
-                    access_token = token,
-                    ip_address = ip.address()
-                )
+
+                var data = {
+                    id_user: id_users,
+                    access_token: token,
+                    ip_address: ip.address()
+                }
 
                 var query = "Insert into ?? set ?";
-                var table = ["users_access_token"];
+                var table = ["usersx_access_token"];
 
                 query = mysql.format(query,table);
                 connection.query(query,data, function(error, rows){
